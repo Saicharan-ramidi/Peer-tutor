@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PeerTutor — Senior-Junior Doubt Clearing</title>
+  <meta name="description" content="Connect juniors with seniors for academic doubt clearing, guidance, and mentorship." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ══════════════ NAVBAR ══════════════ -->
+<nav class="navbar" id="navbar">
+  <div class="nav-brand">
+    <span class="brand-icon">🎓</span>
+    <span class="brand-text">PeerTutor</span>
+  </div>
+  <div class="nav-links" id="navLinks">
+    <a href="#" onclick="showPage('home')" id="nav-home">Home</a>
+    <a href="#" onclick="showPage('doubts')" id="nav-doubts" class="hidden">Browse Doubts</a>
+    <a href="#" onclick="showPage('seniors')" id="nav-seniors" class="hidden">Find Seniors</a>
+    <a href="#" onclick="showPage('dashboard')" id="nav-dashboard" class="hidden">Dashboard</a>
+  </div>
+  <div class="nav-auth">
+    <span id="userGreet" class="hidden"></span>
+    <button class="btn btn-outline" onclick="showPage('login')" id="btn-login">Login</button>
+    <button class="btn btn-primary" onclick="showPage('register')" id="btn-register">Register</button>
+    <button class="btn btn-danger hidden" onclick="logout()" id="btn-logout">Logout</button>
+  </div>
+</nav>
+
+<!-- ══════════════ PAGES ══════════════ -->
+<main id="app">
+
+  <!-- ── HOME PAGE ─────────────────────── -->
+  <section class="page active" id="page-home">
+    <div class="hero">
+      <div class="hero-badge">🎯 Academic Excellence Platform</div>
+      <h1 class="hero-title">Clear Every Doubt<br/><span class="gradient-text">With Senior Guidance</span></h1>
+      <p class="hero-sub">Connect juniors with experienced seniors for real-time academic help, mentorship, and career guidance.</p>
+      <div class="hero-btns">
+        <button class="btn btn-primary btn-lg" onclick="showPage('register')">Get Started Free</button>
+        <button class="btn btn-outline btn-lg" onclick="showPage('doubts')">Browse Doubts</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><strong id="stat-doubts">0</strong><span>Doubts Solved</span></div>
+        <div class="stat"><strong id="stat-seniors">0</strong><span>Senior Tutors</span></div>
+        <div class="stat"><strong id="stat-users">0</strong><span>Students</span></div>
+      </div>
+    </div>
+
+    <div class="features">
+      <div class="feature-card">
+        <div class="feature-icon">🙋</div>
+        <h3>Post Your Doubt</h3>
+        <p>Juniors can post any academic doubt — subject, topic, or even career questions.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">👨‍🏫</div>
+        <h3>Senior Answers</h3>
+        <p>Verified seniors from your branch answer and guide you with real experience.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⭐</div>
+        <h3>Rate & Review</h3>
+        <p>Rate seniors after getting help. The best tutors rise to the top!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── LOGIN PAGE ─────────────────────── -->
+  <section class="page" id="page-login">
+    <div class="auth-container">
+      <div class="auth-card">
+        <div class="auth-header">
+          <span class="auth-icon">🔐</span>
+          <h2>Welcome Back</h2>
+          <p>Login to your PeerTutor account</p>
+        </div>
+        <form id="loginForm" onsubmit="doLogin(event)">
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="loginEmail" placeholder="you@college.edu" required />
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="loginPassword" placeholder="••••••••" required />
+          </div>
+          <div id="loginError" class="error-msg hidden"></div>
+          <button type="submit" class="btn btn-primary btn-block">Login →</button>
+        </form>
+        <p class="auth-switch">Don't have an account? <a href="#" onclick="showPage('register')">Register here</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── REGISTER PAGE ──────────────────── -->
+  <section class="page" id="page-register">
+    <div class="auth-container">
+      <div class="auth-card wide">
+        <div class="auth-header">
+          <span class="auth-icon">🎓</span>
+          <h2>Join PeerTutor</h2>
+          <p>Create your account as a senior or junior</p>
+        </div>
+        <form id="registerForm" onsubmit="doRegister(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Full Name</label>
+              <input type="text" id="regName" placeholder="Your full name" required />
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" id="regEmail" placeholder="you@college.edu" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" id="regPassword" placeholder="Min 6 characters" required />
+            </div>
+            <div class="form-group">
+              <label>I am a...</label>
+              <select id="regRole" required>
+                <option value="">Select role</option>
+                <option value="junior">Junior (seeking help)</option>
+                <option value="senior">Senior (offering help)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Branch / Department</label>
+              <select id="regBranch" required>
+                <option value="">Select branch</option>
+                <option value="CSE">Computer Science (CSE)</option>
+                <option value="ECE">Electronics (ECE)</option>
+                <option value="ME">Mechanical (ME)</option>
+                <option value="CE">Civil (CE)</option>
+                <option value="EEE">Electrical (EEE)</option>
+                <option value="IT">Information Technology (IT)</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Year of Study</label>
+              <select id="regYear" required>
+                <option value="">Select year</option>
+                <option value="1">1st Year</option>
+                <option value="2">2nd Year</option>
+                <option value="3">3rd Year</option>
+                <option value="4">4th Year</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Short Bio <span class="optional">(optional, for seniors)</span></label>
+            <textarea id="regBio" placeholder="e.g., CSE 3rd year, good at DSA, DBMS, OS..." rows="2"></textarea>
+          </div>
+          <div id="regError" class="error-msg hidden"></div>
+          <button type="submit" class="btn btn-primary btn-block">Create Account →</button>
+        </form>
+        <p class="auth-switch">Already have an account? <a href="#" onclick="showPage('login')">Login here</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── DOUBTS PAGE ────────────────────── -->
+  <section class="page" id="page-doubts">
+    <div class="page-header">
+      <div>
+        <h2 class="page-title">📚 Academic Doubts</h2>
+        <p class="page-sub">Browse open doubts or post your own</p>
+      </div>
+      <div class="page-actions">
+        <input type="text" id="searchDoubt" placeholder="🔍 Search by subject..." oninput="filterDoubts()" class="search-box" />
+        <button class="btn btn-primary" onclick="showModal('postDoubtModal')" id="postDoubtBtn">+ Post Doubt</button>
+      </div>
+    </div>
+    <div id="doubtsList" class="doubts-grid">
+      <div class="loading-state">Loading doubts...</div>
+    </div>
+  </section>
+
+  <!-- ── SENIORS PAGE ───────────────────── -->
+  <section class="page" id="page-seniors">
+    <div class="page-header">
+      <div>
+        <h2 class="page-title">👨‍🏫 Browse Senior Tutors</h2>
+        <p class="page-sub">Find experienced seniors from your branch</p>
+      </div>
+      <input type="text" id="searchSenior" placeholder="🔍 Search by name or branch..." oninput="filterSeniors()" class="search-box" />
+    </div>
+    <div id="seniorsList" class="seniors-grid">
+      <div class="loading-state">Loading seniors...</div>
+    </div>
+  </section>
+
+  <!-- ── DASHBOARD PAGE ─────────────────── -->
+  <section class="page" id="page-dashboard">
+    <div class="page-header">
+      <h2 class="page-title">📊 My Dashboard</h2>
+    </div>
+    <div id="dashboardContent" class="dashboard-grid">Loading...</div>
+  </section>
+
+  <!-- ── DOUBT DETAIL PAGE ──────────────── -->
+  <section class="page" id="page-doubtDetail">
+    <button class="btn btn-outline back-btn" onclick="showPage('doubts')">← Back</button>
+    <div id="doubtDetail"></div>
+  </section>
+
+</main>
+
+<!-- ══════════════ MODALS ══════════════ -->
+
+<!-- Post Doubt Modal -->
+<div class="modal-overlay hidden" id="postDoubtModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>🙋 Post a Doubt</h3>
+      <button class="modal-close" onclick="hideModal('postDoubtModal')">✕</button>
+    </div>
+    <form onsubmit="postDoubt(event)">
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" id="doubtTitle" placeholder="e.g., Explain Binary Search Tree" required />
+      </div>
+      <div class="form-group">
+        <label>Subject</label>
+        <input type="text" id="doubtSubject" placeholder="e.g., Data Structures, DBMS, OS..." required />
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="doubtDesc" placeholder="Describe your doubt in detail..." rows="4" required></textarea>
+      </div>
+      <div id="postDoubtError" class="error-msg hidden"></div>
+      <button type="submit" class="btn btn-primary btn-block">Post Doubt</button>
+    </form>
+  </div>
+</div>
+
+<!-- Toast Notification -->
+<div id="toast" class="toast hidden"></div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
